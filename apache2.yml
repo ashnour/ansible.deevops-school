@@ -28,6 +28,7 @@
       content: |
         Welcome to my
         web server
+
   - name: Enable traffic in default zone for http service
     ansible.builtin.iptables:
       chain: INPUT
