@@ -1,0 +1,13 @@
+[hosts]
+sakv-test-2 ansible_host=172.16.0.122 ansible_user=ansible
+sakv-test-3 ansible_host=172.16.0.123 ansible_user=ansible
+
+[hosts:vars]
+ansible_become=yes
+ansible_become_method=sudo
+
+[web]
+sakv-test-2
+
+[backend]
+sakv-test-3
