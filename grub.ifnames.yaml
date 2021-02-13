@@ -1,0 +1,23 @@
+---
+- name: Grub Networking Config
+  hosts: web
+  tasks:
+  - name: Disable Network Manager
+    service: 
+      name: network-manager
+      state: stopped
+
+  - name: Edit Grub
+    lineinfile:
+      path: /etc/default/grub
+      regexp: '^GRUB_CMDLINE_LINUX=""'
+      line: 'GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"'
+
+  - name: Make Grub Config
+    command: grub-mkconfig
+
+  - name: Enable Network Manager
+    service: 
+      name: network-manager
+      state: started
+ 

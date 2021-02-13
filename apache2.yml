@@ -2,17 +2,17 @@
 - name: Apache2 install
   hosts: web
   tasks:
-  - name: Install_Apache
+  - name: Install Apache
     apt:
       name: apache2
       state: present
 
-  - name: enable apache2
+  - name: Enable Apache2
     service:
       name: apache2
       enabled: yes
 
-  - name: checking service status
+  - name: Checking Service Status
     command: systemctl status "{{ item }}"
     with_items:
     - apache2
