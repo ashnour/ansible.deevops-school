@@ -8,11 +8,7 @@
       state: absent
       purge: yes
       force: yes
-
-  - name: Delete index.html
-    file:
-      state: absent
-      path: "/var/www/html/index.html"
+    when: ansible_facts.os_family == "Debian"
 
   - name: Disable traffic in default zone for http service
     ansible.builtin.iptables:
@@ -20,3 +16,24 @@
       protocol: tcp
       destination_port: 80
       jump: DROP
+    when: ansible_facts.os_family == "Debian"
+
+
+  - name: Uninstall Httpd
+    yum:
+      name: httpd
+      state: absent
+    when: ansible_facts.os_family == "RedHat"
+
+  - name: Disable traffic in default zone for http service
+    ansible.posix.firewalld:
+      service: http
+      permanent: yes
+      state: disabled
+    when: ansible_facts.os_family == "RedHat"
+
+
+  - name: Delete index.html
+    file:
+      state: absent
+      path: "/var/www/html/index.html"

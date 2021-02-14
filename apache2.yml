@@ -2,15 +2,17 @@
 - name: Apache2 install
   hosts: web
   tasks:
-  - name: Install Apache
+  - name: Install Apache2
     apt:
       name: apache2
       state: present
+    when: ansible_facts.os_family == "Debian"
 
   - name: Enable Apache2
     service:
       name: apache2
       enabled: yes
+    when: ansible_facts.os_family == "Debian"
 
   - name: Checking Service Status
     command: systemctl status "{{ item }}"
@@ -18,16 +20,29 @@
     - apache2
     register: result
     changed_when: False
-  - name: showing report
-    debug:
-      var: result
+    when: ansible_facts.os_family == "Debian"
 
-  - name: Create index.html
-    copy:
-      dest: "/var/www/html/index.html"
-      content: |
-        Welcome to my
-        web server
+
+  - name: Install Httpd   
+    yum:
+      name: httpd
+      state: present
+    when: ansible_facts.os_family == "RedHat"
+
+  - name: Enable Httpd
+    service:
+      name: httpd
+      enabled: yes
+    when: ansible_facts.os_family == "RedHat"
+
+  - name: Checking Service Status
+    command: systemctl status "{{ item }}"
+    with_items:
+    - httpd
+    register: result
+    changed_when: False
+    when: ansible_facts.os_family == "RedHat"
+
 
   - name: Enable traffic in default zone for http service
     ansible.builtin.iptables:
@@ -35,4 +50,19 @@
       protocol: tcp
       destination_port: 80
       jump: ACCEPT
+    when: ansible_facts.os_family == "Debian"
+
+  - name: Enable traffic in default zone for http service
+    ansible.posix.firewalld:
+      service: http
+      permanent: yes
+      state: enabled
+    when: ansible_facts.os_family == "RedHat"
+
       
+  - name: Create index.html
+    copy:
+      dest: "/var/www/html/index.html"
+      content: |
+        Welcome to my
+        web server
