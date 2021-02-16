@@ -1,17 +1,10 @@
 ---
 # tasks file for site.firewalld
 
-- name: Enable traffic in default zone for http service
-  ansible.builtin.iptables:
-    chain: INPUT
-    protocol: tcp
-    destination_port: 80
-    jump: ACCEPT
+- name: Enable firewall rules for webserver
+
+  include_tasks: debian.iptables.yml
   when: ansible_facts.os_family == "Debian"
 
-- name: Enable traffic in default zone for http service
-  ansible.posix.firewalld:
-    service: http
-    permanent: yes
-    state: enabled
+  include_tasks: rhel.firewalld.yml
   when: ansible_facts.os_family == "RedHat"
