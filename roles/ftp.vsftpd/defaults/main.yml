@@ -1,0 +1,12 @@
+---
+
+vsftpd_connect_from_port_20: true
+vsftpd_anonymous_enable: true
+vsftpd_no_anon_password: true
+vsftpd_anon_root: /var/ftp/pub
+vsftpd_anon_upload_enable: true
+vsftpd_anon_mkdir_write_enable: true
+vsftpd_chown_uploads: true
+vsftpd_chown_username: ftp
+vsftpd_xferlog_enable: true
+vsftpd_ftpd_banner: Welcome To Public FTP Server

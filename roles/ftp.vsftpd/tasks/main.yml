@@ -1,0 +1,52 @@
+---
+# tasks for ftp.vsftpd
+
+- name: Include OS-specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_os_family }}.yml"
+
+- name: Vsftpd package instalation
+  package:
+    name: '{{ vsftpd_packages }}'
+    state: present
+
+- name: Add the user 'ftp'
+  ansible.builtin.user:
+    name: ftp
+    comment: FTP user
+    group: ftp
+    home: /var/ftp
+
+- name: Create ftp directory if does not exist
+  ansible.builtin.file:
+    path: /var/ftp/pub
+    state: directory
+    mode: '0755'
+    owner: ftp
+    group: ftp
+
+- include_tasks: selinux.yml
+  when: ansible_selinux is defined and ansible_selinux != false and ansible_selinux.status == 'enabled'
+
+- name: Install configuration file
+  template:
+    src:   vsftpd.conf.j2
+    dest: "{{ vsftpd_config_file }}"
+    mode: '0600'
+  notify: restart vsftpd
+
+- name: Enable {{ vsftpd_service }}
+  service:
+    name: "{{ vsftpd_service }}"
+    state: started
+    enabled: yes
+
+- name: Checking Service Status
+  command: systemctl status {{ vsftpd_service }}
+  register: result
+  changed_when: False
+
+- name: showing report
+  debug:
+    var: result

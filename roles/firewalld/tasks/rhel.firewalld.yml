@@ -1,0 +1,7 @@
+---
+- name: Enable traffic in default zone for {{  network_service  }} service
+  ansible.posix.firewalld:
+    service: "{{  network_service  }}"
+    permanent: yes
+    state: enabled
+

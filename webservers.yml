@@ -4,5 +4,10 @@
 
   roles:
     - role: site.apache
-    - role: site.firewalld
+    
+    - role: firewalld
+      vars:
+        tcp_ports: 80
+        network_service: http
+
     - role: site.files

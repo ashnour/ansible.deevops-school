@@ -1,0 +1,11 @@
+---
+- name: VSFTPD installation
+  hosts: backend
+
+  roles:
+    - role: ftp.vsftpd
+
+    - role: firewalld
+      vars:
+        tcp_ports: 20-21
+        network_service: ftp

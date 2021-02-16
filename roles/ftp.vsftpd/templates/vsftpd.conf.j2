@@ -1,0 +1,11 @@
+connect_from_port_20={{ 'YES' if vsftpd_connect_from_port_20 else 'NO' }}
+anonymous_enable={{ 'YES' if vsftpd_anonymous_enable else 'NO' }}
+no_anon_password={{ 'YES' if vsftpd_no_anon_password else 'NO' }}
+anon_root={{ vsftpd_anon_root }}
+anon_upload_enable={{ 'YES' if vsftpd_anon_upload_enable else 'NO' }}
+anon_mkdir_write_enable={{ 'YES' if vsftpd_anon_mkdir_write_enable else 'NO' }}
+chown_uploads={{ 'YES' if vsftpd_chown_uploads else 'NO' }}
+chown_username={{ vsftpd_chown_username }}
+xferlog_enable={{ 'YES' if vsftpd_xferlog_enable else 'NO' }}
+ftpd_banner={{ vsftpd_ftpd_banner }}
+

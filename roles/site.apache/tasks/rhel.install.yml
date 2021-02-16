@@ -1,9 +1,0 @@
----
-- name: Install Httpd
-  yum:
-    name: httpd
-    state: present
-
-- include_tasks: enabling.service.yml
-  vars:
-    package: httpd

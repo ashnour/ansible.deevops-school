@@ -1,0 +1,8 @@
+---
+- name: Accepting traffic for port {{  tcp_ports  }}
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{  tcp_ports  }}"
+    jump: ACCEPT
+
