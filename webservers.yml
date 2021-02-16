@@ -1,0 +1,8 @@
+---
+- name: Webserver deployment
+  hosts: web
+
+  roles:
+    - role: site.apache
+    - role: site.firewalld
+    - role: site.files

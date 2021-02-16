@@ -1,0 +1,16 @@
+--- 
+- name: Install Apache2
+  apt:
+    name: apache2
+    state: present
+
+- name: Enable Apache2
+  service:
+    name: apache2
+    enabled: yes
+
+- name: Checking Service Status
+  command: systemctl status apache2
+  register: result
+  changed_when: False
+
