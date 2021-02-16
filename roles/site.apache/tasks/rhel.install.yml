@@ -4,12 +4,6 @@
     name: httpd
     state: present
 
-- name: Enable Httpd
-  service:
-    name: httpd
-    enabled: yes
-
-- name: Checking Service Status
-  command: systemctl status httpd
-  register: result
-  changed_when: False
+- include_tasks: enabling.service.yml
+  vars:
+    package: httpd

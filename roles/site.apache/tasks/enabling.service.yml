@@ -1,0 +1,10 @@
+---
+- name: Enable {{  package }}
+  service:
+    name: "{{  package }}"
+    enabled: yes
+
+- name: Checking Service Status
+  command: systemctl status {{  package }}
+  register: result
+  changed_when: False
